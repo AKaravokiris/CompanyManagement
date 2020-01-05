@@ -5,19 +5,18 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{C6CC0905-AFBA-409D-BFBD-D2387E760C61}</ProjectGuid>
-    <OutputType>Exe</OutputType>
-    <RootNamespace>ConsoleTester</RootNamespace>
-    <AssemblyName>ConsoleTester</AssemblyName>
+    <ProjectGuid>{8F540C8A-839B-40F9-9B72-01E1A9242485}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>DataModels</RootNamespace>
+    <AssemblyName>DataModels</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <Deterministic>true</Deterministic>
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -27,7 +26,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
@@ -45,9 +43,6 @@
     <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.4.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
-    <Reference Include="Services">
-      <HintPath>..\..\BLL\Services\bin\Debug\Services.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
@@ -59,12 +54,38 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Program.cs" />
+    <Compile Include="Context\CompanyContext.cs" />
+    <Compile Include="DomainModels\CompanyDepartment.cs" />
+    <Compile Include="DomainModels\CompanyEmployee.cs" />
+    <Compile Include="Migrations\202001051145549_initial.cs" />
+    <Compile Include="Migrations\202001051145549_initial.designer.cs">
+      <DependentUpon>202001051145549_initial.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202001051153562_addFK.cs" />
+    <Compile Include="Migrations\202001051153562_addFK.designer.cs">
+      <DependentUpon>202001051153562_addFK.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202001051207453_addFK2.cs" />
+    <Compile Include="Migrations\202001051207453_addFK2.designer.cs">
+      <DependentUpon>202001051207453_addFK2.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\202001051145549_initial.resx">
+      <DependentUpon>202001051145549_initial.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202001051153562_addFK.resx">
+      <DependentUpon>202001051153562_addFK.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202001051207453_addFK2.resx">
+      <DependentUpon>202001051207453_addFK2.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

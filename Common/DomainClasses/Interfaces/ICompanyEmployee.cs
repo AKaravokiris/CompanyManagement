@@ -2,9 +2,9 @@
 
 namespace DomainClasses.Interfaces
 {
-    interface ICompanyEmployee
+    public interface ICompanyEmployee
     {
-        Guid ID { get; set; }
+        Guid ID { get; }
         string firstName { get; set; }
         string lastName { get; set; }
 

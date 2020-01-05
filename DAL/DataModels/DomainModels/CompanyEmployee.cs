@@ -1,9 +1,10 @@
 ﻿using DomainClasses.Interfaces;
 using System;
+using System.ComponentModel.DataAnnotations.Schema;
 
-namespace DomainClasses.Classes
+namespace DataModels.DomainModels
 {
-    class CompanyEmployee : ICompanyEmployee
+    public class CompanyEmployee : ICompanyEmployee
     {
         public CompanyEmployee()
         {
@@ -14,6 +15,8 @@ namespace DomainClasses.Classes
         public string lastName { get; set; }
         public string emailAddress { get; set; }
         public DateTime birthDate { get; set; }
+
+        [ForeignKey("ID")]
         public ICompanyDepartment departmentID { get; set; }
     }
 }

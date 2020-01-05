@@ -2,10 +2,11 @@
 
 namespace DomainClasses.Interfaces
 {
-    interface ICompanyDepartment
+    public interface ICompanyDepartment
     {
-        Guid ID { get; set; }
+        Guid ID { get; }
         string Name { get; set; }
         int maxEmployee { get; set; }
+
     }
 }

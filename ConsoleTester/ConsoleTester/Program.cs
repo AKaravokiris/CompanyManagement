@@ -1,8 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using DomainClasses.Interfaces;
+using DomainClasses.CommonClasses;
+using Services;
+using System;
 
 namespace ConsoleTester
 {
@@ -10,6 +9,20 @@ namespace ConsoleTester
     {
         static void Main(string[] args)
         {
+            Console.WriteLine(InsertCompanyDepartment());
+            Console.Read();
+        }
+
+        private static string InsertCompanyDepartment()
+        {
+            ICompanyDepartment department = new CompanyDepartment()
+            {                
+                Name="HR3",
+                maxEmployee=1
+            };
+
+            CompanyDepartmentServices service = new CompanyDepartmentServices();
+            return service.InsertNewDepartment(department);
         }
     }
 }
