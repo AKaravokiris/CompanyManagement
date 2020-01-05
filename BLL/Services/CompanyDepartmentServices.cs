@@ -1,4 +1,5 @@
 ﻿using DataModels.DomainModels;
+using DomainClasses.CommonClasses;
 using DomainClasses.Interfaces;
 
 namespace Services
@@ -6,7 +7,7 @@ namespace Services
     public class CompanyDepartmentServices
     {
         public string InsertNewDepartment(ICompanyDepartment department) {
-            CompanyDepartment departmentRepo = new CompanyDepartment();
+            CompanyDepartmentRepo departmentRepo = new CompanyDepartmentRepo();
             return departmentRepo.InsertNewDepartment(department);
         }
 

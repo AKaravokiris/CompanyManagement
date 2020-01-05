@@ -17,7 +17,7 @@ namespace ConsoleTester
         {
             ICompanyDepartment department = new CompanyDepartment()
             {                
-                Name="HR3",
+                Name="HR",
                 maxEmployee=1
             };
 

@@ -4,7 +4,7 @@ namespace DomainClasses.Interfaces
 {
     public interface ICompanyEmployee
     {
-        Guid ID { get; }
+        Guid ID { get; set; }
         string firstName { get; set; }
         string lastName { get; set; }
 

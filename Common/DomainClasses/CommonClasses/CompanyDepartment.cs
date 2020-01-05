@@ -9,7 +9,8 @@ namespace DomainClasses.CommonClasses
 {
     public class CompanyDepartment : ICompanyDepartment
     {
-        public Guid ID { get; }
+
+        public Guid ID { get; set; }
         public string Name { get; set; }
         public int maxEmployee { get; set; }
     }
