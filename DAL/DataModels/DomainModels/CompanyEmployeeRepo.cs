@@ -1,44 +1,89 @@
-﻿using DomainClasses.Interfaces;
+﻿using DataModels.Context;
+using DomainClasses.CommonClasses;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Linq;
 
 namespace DataModels.DomainModels
 {
-    [NotMapped]
-    public class CompanyEmployeeRepo : ICompanyEmployeeRepo
+    
+    public class CompanyEmployeeRepo : CompanyEmployee
     {
+        private readonly CompanyContext _context;
         public CompanyEmployeeRepo()
         {
-
-        }
-        public Guid ID { get; set; }
-        public string firstName { get; set; }
-        public string lastName { get; set; }
-        public string emailAddress { get; set; }
-        public DateTime birthDate { get; set; }
-
-        
-        public ICompanyDepartment departmentID { get; set; }
-
-        public string DeleteEmployee(ICompanyEmployee Employee)
-        {
-            throw new NotImplementedException();
+            _context = GetDBContext();
         }
 
-        public string EditEmployee(ICompanyEmployee Employee)
+        private CompanyContext GetDBContext()
         {
-            throw new NotImplementedException();
+            return new CompanyContext();
+        }
+        public override string Create(CompanyEmployee employee)
+        {
+            string result = "Created";
+            try
+            {
+                employee.ID = Guid.NewGuid();
+                _context.employees.Add(employee);
+                _context.SaveChanges();
+            }
+            catch (Exception ex)
+            {
+                result = GetExceptiopnMessage(ex);
+            }
+            return result;
         }
 
-        public IEnumerable<ICompanyEmployee> GetAllEmployees()
+        private  string GetExceptiopnMessage(Exception ex)
         {
-            throw new NotImplementedException();
+            return string.Format("{0} {1}", ex.Message ?? string.Empty, ex.InnerException.Message ?? string.Empty);
         }
 
-        public string InsertNewEmployee(ICompanyEmployee Employee)
+        public override List<CompanyEmployee> Read()
         {
-            throw new NotImplementedException();
+            try
+            {
+
+                return  _context.employees.ToList();
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+        }
+
+        public override string Update(CompanyEmployee employee)
+        {
+            string result = "Updated";
+            try
+            {
+                _context.employees.Attach(employee);
+                _context.Entry(employee).State = System.Data.Entity.EntityState.Modified;
+                _context.SaveChanges();            
+            }
+            catch (Exception ex)
+            {
+                result = string.Format("{0} {1}", ex.Message ?? string.Empty, ex.InnerException.Message ?? string.Empty);
+            }
+            return result;
+        }
+
+        public override string Delete(CompanyEmployee employee)
+        {
+            string result = "Deleted";
+            try
+            {
+                _context.Entry(employee).State = System.Data.Entity.EntityState.Deleted;
+                _context.SaveChanges();
+
+            }
+            catch (Exception ex)
+            {
+                result = string.Format("{0} {1}", ex.Message ?? string.Empty, ex.InnerException.Message ?? string.Empty);
+            }
+            return result;
         }
     }
 }

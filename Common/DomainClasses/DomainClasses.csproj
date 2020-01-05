@@ -53,10 +53,6 @@
   <ItemGroup>
     <Compile Include="CommonClasses\CompanyDepartment.cs" />
     <Compile Include="CommonClasses\CompanyEmployee.cs" />
-    <Compile Include="Interfaces\ICompanyDepartment.cs" />
-    <Compile Include="Interfaces\ICompanyDepartmentRepo.cs" />
-    <Compile Include="Interfaces\ICompanyEmployee.cs" />
-    <Compile Include="Interfaces\ICompanyEmployeeRepo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

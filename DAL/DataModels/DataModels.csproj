@@ -57,12 +57,84 @@
     <Compile Include="Context\CompanyContext.cs" />
     <Compile Include="DomainModels\CompanyDepartmentRepo.cs" />
     <Compile Include="DomainModels\CompanyEmployeeRepo.cs" />
+    <Compile Include="Migrations\202001051518471_initial.cs" />
+    <Compile Include="Migrations\202001051518471_initial.designer.cs">
+      <DependentUpon>202001051518471_initial.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202001051529035_fix.cs" />
+    <Compile Include="Migrations\202001051529035_fix.designer.cs">
+      <DependentUpon>202001051529035_fix.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202001051537403_fix2.cs" />
+    <Compile Include="Migrations\202001051537403_fix2.designer.cs">
+      <DependentUpon>202001051537403_fix2.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202001051538392_test2.cs" />
+    <Compile Include="Migrations\202001051538392_test2.designer.cs">
+      <DependentUpon>202001051538392_test2.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202001051540559_fix3.cs" />
+    <Compile Include="Migrations\202001051540559_fix3.designer.cs">
+      <DependentUpon>202001051540559_fix3.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202001051552414_fix4.cs" />
+    <Compile Include="Migrations\202001051552414_fix4.designer.cs">
+      <DependentUpon>202001051552414_fix4.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202001051559205_fix5.cs" />
+    <Compile Include="Migrations\202001051559205_fix5.designer.cs">
+      <DependentUpon>202001051559205_fix5.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202001051709201_robustVersion.cs" />
+    <Compile Include="Migrations\202001051709201_robustVersion.designer.cs">
+      <DependentUpon>202001051709201_robustVersion.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202001051812178_addingFK.cs" />
+    <Compile Include="Migrations\202001051812178_addingFK.designer.cs">
+      <DependentUpon>202001051812178_addingFK.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202001051831153_addingCurrentNoOfEmployees.cs" />
+    <Compile Include="Migrations\202001051831153_addingCurrentNoOfEmployees.designer.cs">
+      <DependentUpon>202001051831153_addingCurrentNoOfEmployees.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\202001051518471_initial.resx">
+      <DependentUpon>202001051518471_initial.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202001051529035_fix.resx">
+      <DependentUpon>202001051529035_fix.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202001051537403_fix2.resx">
+      <DependentUpon>202001051537403_fix2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202001051538392_test2.resx">
+      <DependentUpon>202001051538392_test2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202001051540559_fix3.resx">
+      <DependentUpon>202001051540559_fix3.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202001051552414_fix4.resx">
+      <DependentUpon>202001051552414_fix4.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202001051559205_fix5.resx">
+      <DependentUpon>202001051559205_fix5.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202001051709201_robustVersion.resx">
+      <DependentUpon>202001051709201_robustVersion.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202001051812178_addingFK.resx">
+      <DependentUpon>202001051812178_addingFK.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202001051831153_addingCurrentNoOfEmployees.resx">
+      <DependentUpon>202001051831153_addingCurrentNoOfEmployees.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

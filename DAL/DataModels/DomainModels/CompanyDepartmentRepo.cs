@@ -1,14 +1,14 @@
 ﻿using DataModels.Context;
 using DomainClasses.CommonClasses;
-using DomainClasses.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Linq;
 
 namespace DataModels.DomainModels
 {
-    [NotMapped]
-    public class CompanyDepartmentRepo : ICompanyDepartmentRepo
+   
+    public class CompanyDepartmentRepo : CompanyDepartment
     {
         private readonly CompanyContext _context;
 
@@ -16,12 +16,7 @@ namespace DataModels.DomainModels
         {
             _context = GetDBContext();
         }
-        
-
-        public ICollection<CompanyEmployeeRepo> employees { get; set; }
-        public Guid ID { get; set; }
-        public string Name { get; set; }
-        public int maxEmployee { get; set; }
+       
 
         private CompanyContext GetDBContext()
         {
@@ -29,9 +24,9 @@ namespace DataModels.DomainModels
         }
 
 
-        public string InsertNewDepartment(ICompanyDepartment department)
+        public override string Create(CompanyDepartment department)
         {
-            string result = "OK";
+            string result = "Created";
             CompanyDepartment compDepartment = (department as CompanyDepartment);
             try
             {
@@ -41,24 +36,54 @@ namespace DataModels.DomainModels
             }
             catch (Exception ex)
             {
-                result = ex.InnerException.Message;
+                result =  string.Format("{0} {1}",ex.Message ?? string.Empty , ex.InnerException.Message ?? string.Empty);
             }
             return result;
         }
 
-        public IEnumerable<ICompanyDepartment> GetAllDepartments()
+        public override List<CompanyDepartment> Read()
         {
-            throw new NotImplementedException();
+            try
+            {
+              
+              return _context.departments.ToList();
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
         }
 
-        public string EditDepartment(ICompanyDepartment department)
+        public override string Update (CompanyDepartment department)
         {
-            throw new NotImplementedException();
+            string result = "Updated";
+            try
+            {
+                _context.departments.Attach(department);
+                _context.Entry(department).State = System.Data.Entity.EntityState.Modified;
+                _context.SaveChanges();
+            }
+            catch (Exception ex)
+            {
+                result = string.Format("{0} {1}", ex.Message ?? string.Empty, ex.InnerException.Message ?? string.Empty);
+            }
+            return result;
         }
 
-        public string DeleteDepartment(ICompanyDepartment department)
+        public override string Delete(CompanyDepartment department)
         {
-            throw new NotImplementedException();
+            string result = "Deleted";
+            try
+            {
+                ///this way i can delete without having to fetch the department first                
+                _context.Entry(department).State = System.Data.Entity.EntityState.Deleted;
+                _context.SaveChanges();
+            }
+            catch (Exception ex)
+            {
+                result = string.Format("{0} {1}", ex.Message ?? string.Empty, ex.InnerException.Message ?? string.Empty);
+            }
+            return result;
         }
     }
 }
