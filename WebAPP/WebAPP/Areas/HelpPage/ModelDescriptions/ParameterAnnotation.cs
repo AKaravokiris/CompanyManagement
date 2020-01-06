@@ -1,6 +1,6 @@
 using System;
 
-namespace WebAPP.Areas.HelpPage.ModelDescriptions
+namespace WebApp.Areas.HelpPage.ModelDescriptions
 {
     public class ParameterAnnotation
     {
