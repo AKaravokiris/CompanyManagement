@@ -11,13 +11,82 @@ namespace ConsoleTester
         static void Main(string[] args)
         {
             TestingCompanyDepartmentServices();
-            //TestingCompanyEmployeeServices();
+            TestingCompanyEmployeeServices();
             Console.Read();
         }
 
         private static void TestingCompanyEmployeeServices()
         {
-            throw new NotImplementedException();
+            CompanyEmployeeServices service = new CompanyEmployeeServices();
+            Console.WriteLine(InsertCompanyEmployee(service));
+            List<CompanyEmployee> Employees = GetAllEmployees(service);
+            Console.WriteLine(updateFirstEmployee(service, Employees));
+            Console.WriteLine(DeleteLastEmployee(service, Employees));
+            Employees = GetAllEmployees(service);
+        }
+
+        private static string DeleteLastEmployee(CompanyEmployeeServices service, List<CompanyEmployee> employees)
+        {
+            CompanyEmployee employee = employees.LastOrDefault();
+            return service.DeleteEmployee(employee);
+        }
+
+        private static string updateFirstEmployee(CompanyEmployeeServices service, List<CompanyEmployee> employees)
+        {
+            CompanyDepartmentServices departmentService = new CompanyDepartmentServices();
+            List<CompanyDepartment> departments = departmentService.GetAllDepartments();
+            CompanyDepartment department = departments.Find(x => x.Name == "Logistics");
+            CompanyEmployee employee = employees.Find(x => x.firstName == "John");
+            if (employee != null)
+            {
+                employee.firstName = "Jonathan";
+                employee.companyDepartment= department;
+            }
+            return service.EditExistingEmployee(employee);
+        }
+
+        private static List<CompanyEmployee> GetAllEmployees(CompanyEmployeeServices service)
+        {
+            List<CompanyEmployee> employees = service.GetAllEmployees();
+            foreach (var employee in employees)
+            {
+                Console.WriteLine(string.Format("{0} : {1}", employee.firstName, employee.companyDepartment.Name));
+            }
+
+            return employees;
+        }
+
+        private static string InsertCompanyEmployee(CompanyEmployeeServices service)
+        {
+            CompanyDepartmentServices departmentService = new CompanyDepartmentServices();
+            List<CompanyDepartment> departments = departmentService.GetAllDepartments();
+            CompanyDepartment department = departments.Find(x => x.maxEmployees == 1);
+            CompanyEmployee employee = new CompanyEmployee()
+            {
+                firstName="John",
+                lastName="Black",
+                birthDate=DateTime.Now,
+                emailAddress="test1@gmail.com",
+                companyDepartment= department
+            };
+            string result=    service.InsertNewEmployee(employee);
+            CompanyEmployee employee2 = new CompanyEmployee()
+            {
+                firstName = "George",
+                lastName = "Blue",
+                birthDate = DateTime.Now,
+                emailAddress = "test1@gmail.com",
+                companyDepartment = departments.Find(x => x.CurrentEmployees < x.maxEmployees)
+            };
+            result = result +" "+service.InsertNewEmployee(employee2);
+            return result;
+        }
+
+        private static CompanyDepartment GetCompanyDepartment()
+        {
+            CompanyDepartmentServices service = new CompanyDepartmentServices();
+            List<CompanyDepartment> departments = service.GetAllDepartments();
+            return departments.Find(x => x.maxEmployees == 1);
         }
 
         private static void TestingCompanyDepartmentServices()
@@ -47,7 +116,7 @@ namespace ConsoleTester
             if (department!=null)
             {
                 department.Name = "Logistics";
-                department.maxEmployees = 7;
+                department.maxEmployees = 3;
             }
             return service.EditExistingDepartment(department);
         }

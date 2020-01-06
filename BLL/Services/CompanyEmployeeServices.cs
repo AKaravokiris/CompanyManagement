@@ -1,10 +1,11 @@
 ﻿using DomainClasses.CommonClasses;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Services
 {
-    class CompanyEmployeeServices
+    public class CompanyEmployeeServices
     {
         InternalService _internalService;
         public CompanyEmployeeServices()
@@ -17,20 +18,16 @@ namespace Services
             string result = string.Empty;
             try
             {
-                List<CompanyDepartment> departments = _internalService._departmentRepo.Read();
-                if (!DepartmentExists(employee, departments))
-                {
-                    result = Messages.sDepartmentNotExists;
-                }
-                else if (DepartmentIsMaxed(employee, departments))
+                if (DepartmentIsMaxed(employee))
                 {
                     result = Messages.sDepartmentIsMax;
                 }
                 else
                 {
+                    IncreaseCurrentEmployeesInDepartment(employee);
                     result = _internalService._EmployeeRepo.Create(employee);
-                    IncreaseCurrentEmployeesInDepartment(employee, departments);
                 }
+
             }
             catch (Exception ex)
             {
@@ -39,21 +36,30 @@ namespace Services
             return result;
         }
 
-        private void IncreaseCurrentEmployeesInDepartment(CompanyEmployee employee, List<CompanyDepartment> departments)
+        private string CheckDepartmentMaximumLimit(CompanyEmployee employee)
         {
-            CompanyDepartment department = departments.Find(x => x.ID == employee.CompanyDepartment.ID);
-            department.CurrentEmployees++;
-            _internalService._departmentRepo.Update(department);
+            string result = string.Empty;
+            if (DepartmentIsMaxed(employee))
+            {
+                result = Messages.sDepartmentIsMax;
+            }
+
+            return result;
         }
 
-        private static bool DepartmentIsMaxed(CompanyEmployee employee, List<CompanyDepartment> departments)
+        private void IncreaseCurrentEmployeesInDepartment(CompanyEmployee employee)
         {
-            return departments.Find(x => x.ID == employee.CompanyDepartment.ID).maxEmployees == departments.Find(x => x.ID == employee.CompanyDepartment.ID).CurrentEmployees;
+            employee.companyDepartment.CurrentEmployees++;
+        }
+
+        private static bool DepartmentIsMaxed(CompanyEmployee employee)
+        {
+            return employee.companyDepartment.maxEmployees == employee.companyDepartment.CurrentEmployees;
         }
 
         private  bool DepartmentExists(CompanyEmployee employee, List<CompanyDepartment> departments)
         {
-            return departments.Exists(x => x.ID == employee.CompanyDepartment.ID);
+            return departments.Exists(x => x.ID == employee.companyDepartment.ID);
         }
 
         public List<CompanyEmployee> GetAllEmployees()
@@ -61,15 +67,52 @@ namespace Services
             return _internalService._EmployeeRepo.Read();
         }
 
-        public string EditExistingEmployee(CompanyEmployee Employee)
+        public string EditExistingEmployee(CompanyEmployee editedEmployee)
         {
+            string result = string.Empty;
+            List<CompanyEmployee> employees = _internalService._EmployeeRepo.Read();
+            CompanyEmployee oldEmployee = GetOldDataOfEditingEmployee(editedEmployee, employees);
+            if (!employeeStayedInSameDepartment(editedEmployee, oldEmployee))
+            {
+                //List<CompanyDepartment> departments = _internalService._departmentRepo.Read();
+                if (DepartmentIsMaxed(editedEmployee))
+                {
+                    result = Messages.sDepartmentIsMax;
+                }
+                else
+                {
+                    IncreaseCurrentEmployeesInDepartment(editedEmployee);
+                    result = _internalService._EmployeeRepo.Update(editedEmployee);
+                    oldEmployee.companyDepartment.CurrentEmployees--;
+                    _internalService._departmentRepo.Update(oldEmployee.companyDepartment);
+                }
+            }
+            else
+            {
+                result = _internalService._EmployeeRepo.Update(editedEmployee);
+            }
+            return result;
+        }
 
-            return _internalService._EmployeeRepo.Update(Employee);
+        private  bool NewDepartmentIsMaxedOut(string result)
+        {
+            return !string.IsNullOrEmpty(result);
+        }
+
+        private  CompanyEmployee GetOldDataOfEditingEmployee(CompanyEmployee editedEmployee, List<CompanyEmployee> employees)
+        {
+            return employees.FirstOrDefault(x => x.ID == editedEmployee.ID);
+        }
+
+        private  bool employeeStayedInSameDepartment(CompanyEmployee editedEmployee, CompanyEmployee oldEmployee)
+        {
+            return oldEmployee != null && oldEmployee.companyDepartment.ID == editedEmployee.companyDepartment.ID;
         }
 
         public string DeleteEmployee(CompanyEmployee Employee)
         {
-
+            Employee.companyDepartment.CurrentEmployees--;
+            //_internalService._departmentRepo.Update(Employee.companyDepartment);
             return _internalService._EmployeeRepo.Delete(Employee);
         }
     }

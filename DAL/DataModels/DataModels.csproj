@@ -97,6 +97,10 @@
     <Compile Include="Migrations\202001051831153_addingCurrentNoOfEmployees.designer.cs">
       <DependentUpon>202001051831153_addingCurrentNoOfEmployees.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202001061107074_minor.cs" />
+    <Compile Include="Migrations\202001061107074_minor.designer.cs">
+      <DependentUpon>202001061107074_minor.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -134,6 +138,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202001051831153_addingCurrentNoOfEmployees.resx">
       <DependentUpon>202001051831153_addingCurrentNoOfEmployees.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202001061107074_minor.resx">
+      <DependentUpon>202001061107074_minor.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

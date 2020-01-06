@@ -12,7 +12,7 @@ namespace DomainClasses.CommonClasses
         public string emailAddress { get; set; }
         public DateTime birthDate { get; set; }
         [Required]
-        public CompanyDepartment CompanyDepartment { get; set; }
+        public CompanyDepartment companyDepartment { get; set; }
 
         public virtual string Create(CompanyEmployee Employee)
         {
