@@ -101,6 +101,18 @@
     <Compile Include="Migrations\202001061107074_minor.designer.cs">
       <DependentUpon>202001061107074_minor.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202001061530348_resetFK.cs" />
+    <Compile Include="Migrations\202001061530348_resetFK.designer.cs">
+      <DependentUpon>202001061530348_resetFK.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202001061539046_resetFK2.cs" />
+    <Compile Include="Migrations\202001061539046_resetFK2.designer.cs">
+      <DependentUpon>202001061539046_resetFK2.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202001061556181_resetFK3.cs" />
+    <Compile Include="Migrations\202001061556181_resetFK3.designer.cs">
+      <DependentUpon>202001061556181_resetFK3.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -141,6 +153,15 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202001061107074_minor.resx">
       <DependentUpon>202001061107074_minor.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202001061530348_resetFK.resx">
+      <DependentUpon>202001061530348_resetFK.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202001061539046_resetFK2.resx">
+      <DependentUpon>202001061539046_resetFK2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202001061556181_resetFK3.resx">
+      <DependentUpon>202001061556181_resetFK3.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

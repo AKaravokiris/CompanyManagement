@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace DomainClasses.CommonClasses
 {
@@ -11,6 +12,9 @@ namespace DomainClasses.CommonClasses
         public string lastName { get; set; }
         public string emailAddress { get; set; }
         public DateTime birthDate { get; set; }
+        [ForeignKey("companyDepartment")]
+        public Guid CompanyDepartment_ID { get; set; }
+
         [Required]
         public CompanyDepartment companyDepartment { get; set; }
 

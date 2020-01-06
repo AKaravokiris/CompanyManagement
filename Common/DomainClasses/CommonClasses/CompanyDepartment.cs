@@ -13,6 +13,7 @@ namespace DomainClasses.CommonClasses
         public string Name { get; set; }
         public int maxEmployees { get; set; }
         public int CurrentEmployees { get; set; }
+        public ICollection<CompanyEmployee> companyEmployee { get; set; }
 
         public virtual string Create(CompanyDepartment department)
         {

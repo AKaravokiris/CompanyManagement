@@ -10,29 +10,27 @@ namespace DataModels.DomainModels
    
     public class CompanyDepartmentRepo : CompanyDepartment
     {
-        private readonly CompanyContext _context;
-
         public CompanyDepartmentRepo()
         {
-            _context = GetDBContext();
         }
        
-
         private CompanyContext GetDBContext()
         {
             return new CompanyContext();
         }
-
-
+        
         public override string Create(CompanyDepartment department)
         {
             string result = "Created";
             CompanyDepartment compDepartment = (department as CompanyDepartment);
             try
             {
-                compDepartment.ID = Guid.NewGuid();
-                _context.departments.Add(compDepartment);
-                _context.SaveChanges();
+                using (CompanyContext context = GetDBContext())
+                {
+                    compDepartment.ID = Guid.NewGuid();
+                    context.departments.Add(compDepartment);
+                    context.SaveChanges();
+                }
             }
             catch (Exception ex)
             {
@@ -45,8 +43,10 @@ namespace DataModels.DomainModels
         {
             try
             {
-              
-              return _context.departments.ToList();
+                using (CompanyContext context = GetDBContext())
+                {
+                    return context.departments.ToList();
+                }               
             }
             catch (Exception ex)
             {
@@ -59,9 +59,12 @@ namespace DataModels.DomainModels
             string result = "Updated";
             try
             {
-                _context.departments.Attach(department);
-                _context.Entry(department).State = System.Data.Entity.EntityState.Modified;
-                _context.SaveChanges();
+                using (CompanyContext context = GetDBContext())
+                {
+                    context.departments.Attach(department);
+                    context.Entry(department).State = System.Data.Entity.EntityState.Modified;
+                    context.SaveChanges();
+                }
             }
             catch (Exception ex)
             {
@@ -75,9 +78,12 @@ namespace DataModels.DomainModels
             string result = "Deleted";
             try
             {
-                ///this way i can delete without having to fetch the department first                
-                _context.Entry(department).State = System.Data.Entity.EntityState.Deleted;
-                _context.SaveChanges();
+                using (CompanyContext context = GetDBContext())
+                {
+                    ///this way i can delete without having to fetch the department first                
+                    context.Entry(department).State = System.Data.Entity.EntityState.Deleted;
+                    context.SaveChanges();
+                }
             }
             catch (Exception ex)
             {

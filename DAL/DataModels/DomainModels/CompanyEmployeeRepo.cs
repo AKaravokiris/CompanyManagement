@@ -11,10 +11,8 @@ namespace DataModels.DomainModels
     
     public class CompanyEmployeeRepo : CompanyEmployee
     {
-        private readonly CompanyContext _context;
         public CompanyEmployeeRepo()
-        {
-            _context = GetDBContext();
+        {            
         }
 
         private CompanyContext GetDBContext()
@@ -23,19 +21,22 @@ namespace DataModels.DomainModels
         }
         public override string Create(CompanyEmployee employee)
         {
-            string result = string.Format("Creating {0} \n", employee.firstName); ;
+            string result = string.Format("Creating {0} \n", employee.firstName);
+            using (CompanyContext context = GetDBContext())
+            {
                 try
                 {
                     employee.ID = Guid.NewGuid();
-                    _context.employees.Add(employee);
-                    _context.Entry(employee.companyDepartment).State = System.Data.Entity.EntityState.Modified;
-                    _context.SaveChanges();
+                    context.employees.Add(employee);
+                    context.Entry(employee.companyDepartment).State = System.Data.Entity.EntityState.Modified;
+                    context.SaveChanges();
                     result = string.Format("Created {0} \n", employee.firstName);
                 }
                 catch (Exception ex)
                 {
                     result = GetExceptiopnMessage(ex);
-                }            
+                }
+            }       
             return result;
         }
 
@@ -68,9 +69,7 @@ namespace DataModels.DomainModels
                 using (CompanyContext context = GetDBContext())
                 {
                     context.employees.Attach(employee);
-                    context.departments.Attach(employee.companyDepartment);
                     context.Entry(employee).State = System.Data.Entity.EntityState.Modified;
-                    context.Entry(employee.companyDepartment).State = System.Data.Entity.EntityState.Modified;
                     context.SaveChanges();
                     result = string.Format("Updated {0} \n", employee.firstName);
                 }

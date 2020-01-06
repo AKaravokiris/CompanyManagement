@@ -74,7 +74,6 @@ namespace Services
             CompanyEmployee oldEmployee = GetOldDataOfEditingEmployee(editedEmployee, employees);
             if (!employeeStayedInSameDepartment(editedEmployee, oldEmployee))
             {
-                //List<CompanyDepartment> departments = _internalService._departmentRepo.Read();
                 if (DepartmentIsMaxed(editedEmployee))
                 {
                     result = Messages.sDepartmentIsMax;
@@ -82,9 +81,13 @@ namespace Services
                 else
                 {
                     IncreaseCurrentEmployeesInDepartment(editedEmployee);
+                    _internalService._departmentRepo.Update(editedEmployee.companyDepartment);
+
                     result = _internalService._EmployeeRepo.Update(editedEmployee);
+
                     oldEmployee.companyDepartment.CurrentEmployees--;
                     _internalService._departmentRepo.Update(oldEmployee.companyDepartment);
+
                 }
             }
             else
@@ -112,7 +115,7 @@ namespace Services
         public string DeleteEmployee(CompanyEmployee Employee)
         {
             Employee.companyDepartment.CurrentEmployees--;
-            //_internalService._departmentRepo.Update(Employee.companyDepartment);
+            _internalService._departmentRepo.Update(Employee.companyDepartment);
             return _internalService._EmployeeRepo.Delete(Employee);
         }
     }

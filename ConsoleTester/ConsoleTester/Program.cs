@@ -40,6 +40,7 @@ namespace ConsoleTester
             if (employee != null)
             {
                 employee.firstName = "Jonathan";
+                employee.CompanyDepartment_ID = department.ID;
                 employee.companyDepartment= department;
             }
             return service.EditExistingEmployee(employee);
@@ -67,7 +68,8 @@ namespace ConsoleTester
                 lastName="Black",
                 birthDate=DateTime.Now,
                 emailAddress="test1@gmail.com",
-                companyDepartment= department
+                CompanyDepartment_ID= department.ID,
+                companyDepartment = department
             };
             string result=    service.InsertNewEmployee(employee);
             CompanyEmployee employee2 = new CompanyEmployee()
@@ -76,6 +78,7 @@ namespace ConsoleTester
                 lastName = "Blue",
                 birthDate = DateTime.Now,
                 emailAddress = "test1@gmail.com",
+                CompanyDepartment_ID = departments.Find(x => x.CurrentEmployees < x.maxEmployees).ID,
                 companyDepartment = departments.Find(x => x.CurrentEmployees < x.maxEmployees)
             };
             result = result +" "+service.InsertNewEmployee(employee2);
