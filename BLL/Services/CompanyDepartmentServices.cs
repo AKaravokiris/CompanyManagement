@@ -41,6 +41,12 @@ namespace Services
             return result;
         }
 
+        public string DeleteDepartmentByID(System.Guid departmentID) {
+            List<CompanyDepartment> departments=GetAllDepartments();
+            CompanyDepartment department= departments.Find(x => x.ID == departmentID);
+            return DeleteDepartment(department);
+        }
+
         private  bool DepartmentHasEmployees(CompanyDepartment department)
         {
             return department.CurrentEmployees > 0;

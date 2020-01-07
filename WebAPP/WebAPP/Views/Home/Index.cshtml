@@ -1,24 +1,65 @@
 ﻿<div class="jumbotron">
-    <h1>ASP.NET</h1>
-    <p class="lead">ASP.NET is a free web framework for building great Web sites and Web applications using HTML, CSS, and JavaScript.</p>
-    <p><a href="https://asp.net" class="btn btn-primary btn-lg">Learn more &raquo;</a></p>
+    <h2>CODING TEST - ASP.NET MVC / C#</h2>
+        <p class="lead">
+            It is essential that candidates have ASP.Net MVC knowledge and good C# programming skills to
+            implement/maintain our Web based applications. The following coding test is about writing a simple HTML5
+            Web application using the ASP.NET MVC (5) framework. Basic data access shall be performed with the Entity
+            Framework (6). For the frontend part popular frameworks like Twitter’s Bootstrap or the jQuery library can be
+            used but is not a must. The focus of this coding test is a simple but clean and well-structured Web application
+            considering key design principles of software architecture (i.e. Separation of concerns or Single Responsibility
+            principle).
+        </p>
+        <p class="lead">
+            Take your time to be sure your code is high quality. Rushing through the test will not be as impressive as
+            showing you can code cleanly and efficiently.
+        </p>
+        <p class="lead">
+            A web application with a simple administration area (2 pages) for managing company departments and
+            company employees shall be implemented. Company departments have a name and a max-employees
+            property. Company employees have the following properties: first name, last name, email address, birthdate
+            and a single company department (ForeignKey). All employee fields are required and must be validated before
+            saving.
+        </p>
 </div>
 <div class="row">
     <div class="col-md-4">
-        <h2>Getting started</h2>
-        <p>ASP.NET Web API is a framework that makes it easy to build HTTP services that reach
-        a broad range of clients, including browsers and mobile devices. ASP.NET Web API
-        is an ideal platform for building RESTful applications on the .NET Framework.</p>
-        <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301870">Learn more &raquo;</a></p>
+        <h2> Company department features</h2>        
+        <ul>
+            <li>Display a list of company departments</li>
+            <li>Add new department (popup AJAX call)</li>
+            <li>Edit existing department (popup AJAX call)</li>
+            <li>Delete department (should be confirmed by the user)</li>
+            <li>Please note: a department can only be deleted when there are no employees assigned to it.</li>
+            <li>Please note: max-employees value cannot be lower than current number of assigned employees.</li>
+        </ul>
+        @*<p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301870">Learn more &raquo;</a></p>*@
     </div>
     <div class="col-md-4">
-        <h2>Get more libraries</h2>
-        <p>NuGet is a free Visual Studio extension that makes it easy to add, remove, and update libraries and tools in Visual Studio projects.</p>
-        <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301871">Learn more &raquo;</a></p>
+        <h2>Company employee features</h2>
+        <ul>
+            <li>Display a list of company employees</li>
+            <li>Add new employee (implement using a modal popup and AJAXcalls)</li>
+            <li>Edit existing employee (implement using a modal popup and AJAXcalls)</li>
+            <li>Delete employee (should be confirmed by the user)</li>
+            <li>
+                Please note: when assigning an employee to a department the department’s max-employee value
+                must be respected, i.e. if a department’s max-employees value is 3 no more than 3 employees can be
+                assigned to that department.
+            </li>
+            <li>Optional: Create Unit tests for edit employee operation</li>
+        </ul>
+        @*<p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301871">Learn more &raquo;</a></p>*@
     </div>
     <div class="col-md-4">
-        <h2>Web Hosting</h2>
-        <p>You can easily find a web hosting company that offers the right mix of features and price for your applications.</p>
-        <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301872">Learn more &raquo;</a></p>
+        <h2> Hints</h2>
+        <ul>
+            <li>Use Entity Framework</li>
+            <li>Use Unity application block for dependency injection (IOC)</li>
+            <li>Include simple error handling and validations and comment your code</li>
+            <li>Include a short README file (your app structure and how to run it)</li>
+            <li>Submit your code via a GitHub repo (if available), else ZIP by mail</li>
+            <li>The use of the repository pattern will be a plus</li>
+        </ul>
+        @*<p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301872">Learn more &raquo;</a></p>*@
     </div>
 </div>
