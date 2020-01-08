@@ -26,7 +26,6 @@ namespace DataModels.DomainModels
             {
                 try
                 {
-                    employee.ID = Guid.NewGuid();
                     context.employees.Add(employee);
                     context.Entry(employee.companyDepartment).State = System.Data.Entity.EntityState.Modified;
                     context.SaveChanges();
@@ -58,6 +57,21 @@ namespace DataModels.DomainModels
                 {
                     return null;
                 }
+            }
+        }
+
+        public override CompanyEmployee ReadByID(Guid employeeID)
+        {
+            try
+            {
+                using (CompanyContext context = GetDBContext())
+                {
+                    return context.employees.FirstOrDefault(x => x.ID == employeeID);
+                }
+            }
+            catch (Exception ex)
+            {
+                return null;
             }
         }
 

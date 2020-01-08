@@ -27,7 +27,6 @@ namespace DataModels.DomainModels
             {
                 using (CompanyContext context = GetDBContext())
                 {
-                    compDepartment.ID = Guid.NewGuid();
                     context.departments.Add(compDepartment);
                     context.SaveChanges();
                 }
@@ -47,6 +46,21 @@ namespace DataModels.DomainModels
                 {
                     return context.departments.ToList();
                 }               
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+        }
+
+        public override CompanyDepartment ReadByID(Guid departmentID)
+        {
+            try
+            {
+                using (CompanyContext context = GetDBContext())
+                {
+                    return context.departments.FirstOrDefault(x => x.ID == departmentID);
+                }
             }
             catch (Exception ex)
             {

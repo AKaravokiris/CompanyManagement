@@ -113,6 +113,14 @@
     <Compile Include="Migrations\202001061556181_resetFK3.designer.cs">
       <DependentUpon>202001061556181_resetFK3.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202001081520457_RequiredFields.cs" />
+    <Compile Include="Migrations\202001081520457_RequiredFields.designer.cs">
+      <DependentUpon>202001081520457_RequiredFields.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202001081545410_minorChange.cs" />
+    <Compile Include="Migrations\202001081545410_minorChange.designer.cs">
+      <DependentUpon>202001081545410_minorChange.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -162,6 +170,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202001061556181_resetFK3.resx">
       <DependentUpon>202001061556181_resetFK3.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202001081520457_RequiredFields.resx">
+      <DependentUpon>202001081520457_RequiredFields.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202001081545410_minorChange.resx">
+      <DependentUpon>202001081545410_minorChange.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

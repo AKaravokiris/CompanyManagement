@@ -33,10 +33,10 @@ namespace WebApp.Controllers
         }
 
         // GET: Employee/Details/5
-        public ActionResult Details(int id)
+        public ActionResult Details(Guid id)
         {
             
-            return View();
+            return View(businessServices.companyEmployeService.GetEmployeeByID(id));
         }
 
         // GET: Employee/Create
@@ -55,11 +55,23 @@ namespace WebApp.Controllers
         {
             try
             {
-                CompanyEmployee employee = new CompanyEmployee();
-                employee = createEmployeModel.employee;
-                businessServices.companyEmployeService.InsertNewEmployee(employee);
-
-                return RedirectToAction("Index");
+                if (createEmployeModel.employee.CompanyDepartment_ID==null)
+                {
+                    ModelState.AddModelError(nameof(createEmployeModel.employee.CompanyDepartment_ID),"Department can not be empty. Please select one.");
+                }
+                if (ModelState.IsValid)
+                {
+                    CompanyEmployee employee = new CompanyEmployee();
+                    employee = createEmployeModel.employee;
+                    businessServices.companyEmployeService.InsertNewEmployee(employee);
+                    return RedirectToAction("Index");
+                }
+                else
+                {
+                    List<CompanyDepartment> departments = businessServices.companyDepartmentService.GetAllDepartments();
+                    createEmployeModel.departments = departments;
+                    return View(createEmployeModel);
+                }
             }
             catch (Exception ex)
             {
@@ -69,41 +81,56 @@ namespace WebApp.Controllers
 
 
         // GET: Employee/Edit/5
-        public ActionResult Edit(int id)
+        public ActionResult Edit(Guid id)
         {
-            return View();
+            CreateEmployeModel createEmployeModel = new CreateEmployeModel();
+            CompanyEmployee employee= businessServices.companyEmployeService.GetEmployeeByID(id);
+            createEmployeModel.employee = employee;
+            List<CompanyDepartment> departments = businessServices.companyDepartmentService.GetAllDepartments();
+            createEmployeModel.departments = departments;
+            return View(createEmployeModel);
         }
 
         // POST: Employee/Edit/5
         [HttpPost]
-        public ActionResult Edit(int id, FormCollection collection)
+        public ActionResult Edit(CreateEmployeModel employeeModel)
         {
             try
             {
-                // TODO: Add update logic here
-
-                return RedirectToAction("Index");
+                if (employeeModel.employee.CompanyDepartment_ID == null)
+                {
+                    ModelState.AddModelError(nameof(employeeModel.employee.CompanyDepartment_ID), "Department can not be empty. Please select one.");
+                }
+                if (ModelState.IsValid)
+                {
+                    string result = businessServices.companyEmployeService.EditExistingEmployee(employeeModel.employee);
+                    return RedirectToAction("Index");
+                }
+                else
+                {
+                    return View(employeeModel);
+                }
             }
-            catch
+            catch (Exception ex)
             {
                 return View();
             }
         }
 
+
         // GET: Employee/Delete/5
-        public ActionResult Delete(int id)
-        {
-            return View();
+        public ActionResult Delete( Guid id,FormCollection collection)
+        {            
+            return View(businessServices.companyEmployeService.GetEmployeeByID(id));
         }
 
         // POST: Employee/Delete/5
         [HttpPost]
-        public ActionResult Delete(int id, FormCollection collection)
+        public ActionResult Delete(Guid id)
         {
             try
             {
-                // TODO: Add delete logic here
-
+                businessServices.companyEmployeService.DeleteEmployeeByID(id);
                 return RedirectToAction("Index");
             }
             catch

@@ -47,8 +47,16 @@ namespace WebApp.Controllers
         {
             try
             {
-                businessServices.companyDepartmentService.InsertNewDepartment(department);
-                return RedirectToAction("Index");
+                if (ModelState.IsValid)
+                {
+
+                    businessServices.companyDepartmentService.InsertNewDepartment(department);
+                    return RedirectToAction("Index");
+                }
+                else
+                {
+                    return View();
+                }
             }
             catch (Exception ex)
             {
@@ -57,20 +65,26 @@ namespace WebApp.Controllers
         }
 
         // GET: Department/Edit/5
-        public ActionResult Edit(int id)
+        public ActionResult Edit(Guid id)
         {
-            return View();
+            return View(businessServices.companyDepartmentService.GetDepartmentByID(id));
         }
 
         // POST: Department/Edit/5
         [HttpPost]
-        public ActionResult Edit(int id, FormCollection collection)
+        public ActionResult Edit(CompanyDepartment department)
         {
             try
             {
-                // TODO: Add update logic here
-
-                return RedirectToAction("Index");
+                if (ModelState.IsValid)
+                {
+                    string result = businessServices.companyDepartmentService.EditExistingDepartment(department);
+                    return RedirectToAction("Index");
+                }
+                else
+                {
+                    return View(department);
+                }
             }
             catch
             {
@@ -79,22 +93,21 @@ namespace WebApp.Controllers
         }
 
         // GET: Department/Delete/5
-        public ActionResult Delete(int id)
+        public ActionResult Delete(Guid id, FormCollection collection)
         {
-            return View();
+            return View(businessServices.companyDepartmentService.GetDepartmentByID(id));
         }
 
         // POST: Department/Delete/5
         [HttpPost]
-        public ActionResult Delete(int id, FormCollection collection)
+        public ActionResult Delete(Guid id)
         {
             try
             {
-                // TODO: Add delete logic here
-
+                string result=businessServices.companyDepartmentService.DeleteDepartmentByID(id);
                 return RedirectToAction("Index");
             }
-            catch
+            catch (Exception ex)
             {
                 return View();
             }

@@ -1,5 +1,6 @@
 ﻿using DataModels.DomainModels;
 using DomainClasses.CommonClasses;
+using System;
 using System.Collections.Generic;
 
 namespace Services
@@ -20,6 +21,11 @@ namespace Services
         public List<CompanyDepartment> GetAllDepartments()
         {
             return _internalService._departmentRepo.Read();
+        }
+
+        public CompanyDepartment GetDepartmentByID(Guid departmentID)
+        {
+            return _internalService._departmentRepo.ReadByID(departmentID);
         }
 
         public string EditExistingDepartment(CompanyDepartment department)
