@@ -4,56 +4,14 @@
     ViewBag.Title = "Departments";
 }
 
-<h2>Index</h2>
+<h2>Departments</h2>
 
 <p>
     @*@Html.ActionLink("Create New", "Create")*@
-    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal"  id="CreateNew">
+    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#CreateDepartmentModal" id="CreateNew">
         Create New
     </button>
 </p>
-
-<!-- Button trigger modal -->
-<!-- Modal -->
-<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Create New Department</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-
-                <div class="form-horizontal">
-                    <hr>
-
-                    <div class="form-group">
-                        <label class="control-label col-md-2" for="Name">Department Name</label>
-                        <div class="col-md-10">
-                            <input class="form-control text-box single-line" data-val="true" data-val-required="The Department Name field is required." id="Name" name="Name" type="text" value="">
-                            <span class="field-validation-valid text-danger" data-valmsg-for="Name" data-valmsg-replace="true"></span>
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <label class="control-label col-md-2" for="maxEmployees">Max Employees</label>
-                        <div class="col-md-10">
-                            <input class="form-control text-box single-line" data-val="true" data-val-number="The field Max Employees must be a number." data-val-required="The Max Employees field is required." id="maxEmployees" name="maxEmployees" type="number" value="0">
-                            <span class="field-validation-valid text-danger" data-valmsg-for="maxEmployees" data-valmsg-replace="true"></span>
-                        </div>
-                    </div>
-                </div>
-
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary"  id="Save">Save</button>
-            </div>
-        </div>
-    </div>
-</div>
 
 <table class="table" id="ListOfDepartments">
     <tr>
@@ -83,25 +41,159 @@
             </td>
 
             <td>
-                @Html.ActionLink("Edit", "Edit", new { id = item.ID }) |
-                @Html.ActionLink("Details", "Details", new { id = item.ID }) |
-                @Html.ActionLink("Delete", "Delete", new { id = item.ID },
-                                             new { @class = "dialog" })
+                <button data-toggle="modal" data-target="#editDepartmentModal" id="Edit" class="btn btn-warning" onclick="OpenForEdit('@item.ID','@item.Name',@item.maxEmployees,@item.CurrentEmployees)")>
+                    Edit
+                </button>
+                @*@Html.ActionLink("Edit", "Edit", new { id = item.ID }) |*@
+                @*    @Html.ActionLink("Details", "Details", new { id = item.ID }) |*@
+                @*@Html.ActionLink("Delete", "Delete", new { id = item.ID },new { @class = "dialog" })*@
+                <button onclick="location.href='@Url.Action("Delete", "Department",new { id = item.ID })';return false;" class="dialog btn btn-danger">Delete</button>
             </td>
         </tr>
     }
 
 </table>
+
+
+<!-- Button trigger Create Department modal -->
+<!-- Modal -->
+<div class="modal fade" id="CreateDepartmentModal" tabindex="-1" role="dialog" aria-labelledby="CreateDepartmentModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <label class="control-label col-md-6" for="Name">Create New Department</label>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="form-horizontal">
+
+                    <div class="form-group">
+                        <label class="control-label col-md-4" for="Name">Department Name</label>
+                        <div class="col-md-8">
+                            <input class="form-control text-box single-line" data-val="true" data-val-required="The Department Name field is required." id="Name" name="Name" type="text" value="">
+                            <span class="field-validation-valid text-danger" data-valmsg-for="Name" data-valmsg-replace="true"></span>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label col-md-4" for="maxEmployees">Max Employees</label>
+                        <div class="col-md-8">
+                            <input class="form-control text-box single-line" data-val="true" data-val-number="The field Max Employees must be a number." data-val-required="The Max Employees field is required." id="maxEmployees" name="maxEmployees" type="number" value="0">
+                            <span class="field-validation-valid text-danger" data-valmsg-for="maxEmployees" data-valmsg-replace="true"></span>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" onclick="SaveNew()">Save</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- Button trigger Edit Department modal -->
+<!-- Modal -->
+<div class="modal fade" id="editDepartmentModal" tabindex="-1" role="dialog" aria-labelledby="editDepartmentModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <label class="control-label col-md-4" for="Name">Edit Department</label>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+
+                <div class="form-horizontal">
+
+                        <input class="form-control text-box single-line" data-val="true" data-val-required="The ID field is required." id="editID" name="editID" type="hidden" value="" >
+
+                        <div class="form-group">
+                            <label class="control-label col-md-4" for="Name">Department Name</label>
+                            <div class="col-md-8">
+                                <input class="form-control text-box single-line" data-val="true" data-val-required="The Department Name field is required." id="editName" name="Name" type="text" >
+                                <span class="field-validation-valid text-danger" data-valmsg-for="Name" data-valmsg-replace="true"></span>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label col-md-4" for="maxEmployees">Max Employees</label>
+                            <div class="col-md-8">
+                                <input class="form-control text-box single-line" data-val="true" data-val-number="The field Max Employees must be a number." data-val-required="The Max Employees field is required." id="editmaxEmployees" name="maxEmployees" type="number" >
+                                <span class="field-validation-valid text-danger" data-valmsg-for="maxEmployees" data-valmsg-replace="true"></span>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label col-md-4" for="CurrentEmployees">Current Employees</label>
+                            <div class="col-md-8">
+                                <input class="form-control  text-box single-line" data-val="true" data-val-number="The field Current Employees must be a number." data-val-required="The Current Employees field is required." id="editCurrentEmployees" name="CurrentEmployees" readonly="readonly" type="number" >
+                                <span class="field-validation-valid text-danger" data-valmsg-for="CurrentEmployees" data-valmsg-replace="true"></span>
+                            </div>
+                        </div>
+
+
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" id="SaveEdit" onclick="SaveEdit()">Save</button>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
 @section Scripts {
     @Scripts.Render("~/bundles/jquery")
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/json2/20160511/json2.js"></script>>
     <script>
-        @*$("body").on("click", "#CreateNew", function () {
-            $("#Name").val("@Model.LastOrDefault().Name")
-            $("#maxEmployees").val(@Model.LastOrDefault().maxEmployees)
-        });*@
+        function OpenForEdit(editID, editName,editmaxEmployees,editCurrentEmployees) {
+            //document.getElementById("editID").value = editID
+            $("#editID").val(editID)
+            $("#editName").val(editName)
+            $("#editCurrentEmployees").val(editCurrentEmployees)
+            $("#editmaxEmployees").val(editmaxEmployees)
+        };
 
-        $("body").on("click", "#Save", function () {
+        function SaveEdit() {
+           editID = $("#editID").val()
+           editName = $("#editName").val()
+            editmaxEmployees = parseInt($("#editmaxEmployees").val(),10)
+            editCurrentEmployees = parseInt($("#editCurrentEmployees").val(),10)
+            var resultMessageForEdit = "";
+            if (editName == "") {
+                resultMessageForEdit = "Name can not be empty";
+                alert(resultMessageForEdit);
+            } else if (editCurrentEmployees < 0) {
+                resultMessageForEdit = "Current Employees can not be less than 0";
+                alert(resultMessageForEdit);
+            } else if (editmaxEmployees <= 0) {
+                resultMessageForEdit = "Max Employees can not be less than 0";
+                alert(resultMessageForEdit);
+            } else {
+                $.ajax({
+                    type: "POST",
+                    url: "/Department/EditDepartment",
+                    data: '{ ID:"' + editID + '",Name:"' + editName + '",maxEmployees:' + editmaxEmployees + ',CurrentEmployee:' + editCurrentEmployees + '}',
+                    contentType: "application/json charset=utf-8",
+                    dataType: "json",
+                    success: function (result) {
+                        resultMessageForEdit = result
+                    },
+                    complete: function (jqxhr, txt_status) {
+                        window.top.location.href = "/Department/Index";
+                        alert(resultMessageForEdit);
+                    }
+                });
+            }
+        }
+            
+        function SaveNew() {
             var resultMessage = "";
             var Name = $("#Name").val();
             var maxEmployes = parseInt($("#maxEmployees").val(), 10);
@@ -127,6 +219,6 @@
                     }
                 });
             }
-        });
+        };
     </script>
 }

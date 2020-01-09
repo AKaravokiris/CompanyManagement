@@ -123,5 +123,17 @@ namespace WebApp.Controllers
                 return Json(ex.Message);
             }
         }
+
+        public JsonResult EditDepartment(CompanyDepartment department)
+        {
+            try
+            {
+                return Json(businessServices.companyDepartmentService.EditExistingDepartment(department));
+            }
+            catch (Exception ex)
+            {
+                return Json(ex.Message);
+            }
+        }
     }
 }
