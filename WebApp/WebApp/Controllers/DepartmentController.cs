@@ -112,5 +112,16 @@ namespace WebApp.Controllers
                 return View();
             }
         }
+
+        public JsonResult CreateDepartment(CompanyDepartment department) {
+            try
+            {
+                return Json(businessServices.companyDepartmentService.InsertNewDepartment(department));
+            }
+            catch (Exception ex)
+            {
+                return Json(ex.Message);
+            }
+        }
     }
 }

@@ -7,9 +7,55 @@
 <h2>Index</h2>
 
 <p>
-    @Html.ActionLink("Create New", "Create")
+    @*@Html.ActionLink("Create New", "Create")*@
+    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal"  id="CreateNew">
+        Create New
+    </button>
 </p>
-<table class="table">
+
+<!-- Button trigger modal -->
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Create New Department</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+
+                <div class="form-horizontal">
+                    <hr>
+
+                    <div class="form-group">
+                        <label class="control-label col-md-2" for="Name">Department Name</label>
+                        <div class="col-md-10">
+                            <input class="form-control text-box single-line" data-val="true" data-val-required="The Department Name field is required." id="Name" name="Name" type="text" value="">
+                            <span class="field-validation-valid text-danger" data-valmsg-for="Name" data-valmsg-replace="true"></span>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label col-md-2" for="maxEmployees">Max Employees</label>
+                        <div class="col-md-10">
+                            <input class="form-control text-box single-line" data-val="true" data-val-number="The field Max Employees must be a number." data-val-required="The Max Employees field is required." id="maxEmployees" name="maxEmployees" type="number" value="0">
+                            <span class="field-validation-valid text-danger" data-valmsg-for="maxEmployees" data-valmsg-replace="true"></span>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary"  id="Save">Save</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<table class="table" id="ListOfDepartments">
     <tr>
         <th>
             @Html.DisplayNameFor(model => model.Name)
@@ -23,42 +69,64 @@
         <th></th>
     </tr>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.Name)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.CurrentEmployees)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.maxEmployees)
-        </td>
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CurrentEmployees)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.maxEmployees)
+            </td>
 
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id = item.ID }) |
-            @Html.ActionLink("Details", "Details", new { id = item.ID }) |
-            @Html.ActionLink("Delete", "Delete", new { id = item.ID },
-                                         new { @class = "dialog" })
-        </td>
-    </tr>
-}
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.ID }) |
+                @Html.ActionLink("Details", "Details", new { id = item.ID }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.ID },
+                                             new { @class = "dialog" })
+            </td>
+        </tr>
+    }
 
 </table>
-<script type="text/javascript">
-    $(function (){
-        $('a.dialog').click(function() {
-            var url = $(this).attr('href');
-            var dialog = $('<div style="display:none"></div>').appendTo('body');
-            dialog.load(url, {},
-                function (responseText, textStatus, XMLHttpRequest) {
-                dialog.dialog({
-                    close: function(event, ui) {
-                        dialog.remove();
+@section Scripts {
+    @Scripts.Render("~/bundles/jquery")
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/json2/20160511/json2.js"></script>>
+    <script>
+        @*$("body").on("click", "#CreateNew", function () {
+            $("#Name").val("@Model.LastOrDefault().Name")
+            $("#maxEmployees").val(@Model.LastOrDefault().maxEmployees)
+        });*@
+
+        $("body").on("click", "#Save", function () {
+            var resultMessage = "";
+            var Name = $("#Name").val();
+            var maxEmployes = parseInt($("#maxEmployees").val(), 10);
+            if (Name == "") {
+                resultMessage = "Name can not be empty";
+                alert(resultMessage);
+            } else if (maxEmployes <= 0) {
+                resultMessage = "Max Employees can not be less than 0";
+                alert(resultMessage);
+            } else {
+                $.ajax({
+                    type: "POST",
+                    url: "/Department/CreateDepartment",
+                    data: '{ ID:"",Name:"' + Name + '",maxEmployees:' + maxEmployes + ',CurrentEmployee:0}',
+                    contentType: "application/json charset=utf-8",
+                    dataType: "json",
+                    success: function (result) {
+                        resultMessage = result
+                    },
+                    complete: function (jqxhr, txt_status) {
+                        window.top.location.href = "/Department/Index";
+                        alert(resultMessage);
                     }
                 });
-            });
-            return false;
+            }
         });
-    });
-</script>
+    </script>
+}
