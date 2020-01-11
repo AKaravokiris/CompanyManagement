@@ -7,7 +7,7 @@
 <h2>Employees</h2>
 
 <p>
-    @Html.ActionLink("Create New", "Create")
+    @Html.ActionLink("Create New", "Create", null, new { id = "createEmployeeLinkId" })
 </p>
 <table class="table">
     <tr>
@@ -29,30 +29,83 @@
         <th></th>
     </tr>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.firstName)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.lastName)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.emailAddress)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.birthDate)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.companyDepartment.Name)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id = item.ID }) |
-            @Html.ActionLink("Details", "Details", new { id = item.ID }) |
-            @Html.ActionLink("Delete", "Delete", new { id = item.ID }) |
-        </td>
-    </tr>
-}
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.firstName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.lastName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.emailAddress)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.birthDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.companyDepartment.Name)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.ID }, new {@class = "editEmployeeLinkId" }) |
+                @Html.ActionLink("Details", "Details", new { id = item.ID }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.ID }) |
+            </td>
+        </tr>
+    }
 
 </table>
+@section Scripts {
+    @Scripts.Render("~/bundles/jquery")
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/json2/20160511/json2.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"
+            integrity="sha256-T0Vest3yCU7pafRw9r+settMBX6JkKN06dqBnpQ8d30="
+            crossorigin="anonymous"></script>
+    <link type="text/css" rel="stylesheet" href="https://code.jquery.com/ui/1.12.0/themes/smoothness/jquery-ui.css">
 
+    <script>
+        $(function () {
+            $('#createEmployeeLinkId').click(function () {
+                var $dialog =  $('<div>Loading ...</div>').load(this.href)
+                    .dialog({
+                        title: "Create Employee",
+                        modal: true,
+                        width: 600,
+                        height: "auto",
+                        closeOnEscape: false,
+                        dialogClass: 'no-close',
+                    })
+                    .position({ my: "top", at: "center", of: window });
+                
+                $dialog.dialog('open');
+                return false;
+            });
+        });
+        //navbar-header
+        $(function () {
+            $('.editEmployeeLinkId').click(function () {
+                var $dialog2 = $('<div>Loading ...</div>').load(this.href)
+                    .dialog({
+                        title: "Edit Employee",
+                        modal: true,
+                        width: 600,
+                        height: "auto",
+                        closeOnEscape: false,
+                        dialogClass: 'no-close',
+                    });
+                    //.position({ my: "center", at: "center", of: window });
+                $dialog2.dialog('open');
+                return false;
+            });
+           
+        });
+
+    </script>
+}
+
+    <style type="text/css">
+        .no-close .ui-dialog-titlebar-close {
+            display: none;
+        }
+    </style>

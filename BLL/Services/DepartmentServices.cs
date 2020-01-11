@@ -1,44 +1,48 @@
-﻿using DataModels.DomainModels;
+﻿using DataModels.Context;
+using DataModels.DomainModels;
+using DomainClasses.CommonBussinessServices;
 using DomainClasses.CommonClasses;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Services
 {
-    public class CompanyDepartmentServices
+     public class DepartmentServices: IDepartmentService
     {
-        InternalService _internalService;
-        public CompanyDepartmentServices()
+        Repository<CompanyDepartment> departmentRepo;
+        public DepartmentServices(CompanyContext _context)
         {
-            _internalService = new InternalService();
+            departmentRepo = new Repository<CompanyDepartment>(_context);
         }
-
         public string InsertNewDepartment(CompanyDepartment department) {
             department.CurrentEmployees = 0;
-            return _internalService._departmentRepo.Create(department);
+            departmentRepo.Add(department);
+            departmentRepo.Save();
+            return "New department added";
         }
-
         public List<CompanyDepartment> GetAllDepartments()
         {
-            return _internalService._departmentRepo.Read();
+            return departmentRepo.List().ToList();
         }
-
         public CompanyDepartment GetDepartmentByID(Guid departmentID)
         {
-            return _internalService._departmentRepo.ReadByID(departmentID);
+            return departmentRepo.GetById(departmentID);
         }
-
         public string EditExistingDepartment(CompanyDepartment department)
         {
-            return _internalService._departmentRepo.Update(department);
+            departmentRepo.Update(department);
+            departmentRepo.Save();
+            return "Department updated";
         }
-
         public string DeleteDepartment(CompanyDepartment department)
         {
             string result = string.Empty;
             if (!DepartmentHasEmployees(department))
             {
-                result= _internalService._departmentRepo.Delete(department);
+                departmentRepo.Delete(department);
+                departmentRepo.Save();
+                result = "Department has been deleted";
             }
             else
             {
@@ -46,13 +50,10 @@ namespace Services
             }
             return result;
         }
-
         public string DeleteDepartmentByID(System.Guid departmentID) {
-            List<CompanyDepartment> departments=GetAllDepartments();
-            CompanyDepartment department= departments.Find(x => x.ID == departmentID);
+            CompanyDepartment department= departmentRepo.GetById(departmentID);
             return DeleteDepartment(department);
         }
-
         private  bool DepartmentHasEmployees(CompanyDepartment department)
         {
             return department.CurrentEmployees > 0;

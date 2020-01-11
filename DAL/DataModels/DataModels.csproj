@@ -55,8 +55,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Context\CompanyContext.cs" />
-    <Compile Include="DomainModels\CompanyDepartmentRepo.cs" />
-    <Compile Include="DomainModels\CompanyEmployeeRepo.cs" />
+    <Compile Include="Migrations\202001110007595_refactored.cs" />
+    <Compile Include="Migrations\202001110007595_refactored.designer.cs">
+      <DependentUpon>202001110007595_refactored.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Repo\Repository.cs" />
     <Compile Include="Migrations\202001051518471_initial.cs" />
     <Compile Include="Migrations\202001051518471_initial.designer.cs">
       <DependentUpon>202001051518471_initial.cs</DependentUpon>
@@ -125,7 +128,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
+    <None Include="App.config">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
@@ -176,6 +181,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202001081545410_minorChange.resx">
       <DependentUpon>202001081545410_minorChange.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202001110007595_refactored.resx">
+      <DependentUpon>202001110007595_refactored.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

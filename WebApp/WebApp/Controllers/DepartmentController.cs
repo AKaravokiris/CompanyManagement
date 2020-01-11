@@ -1,7 +1,10 @@
-﻿using DomainClasses.CommonClasses;
+﻿using DataModels.Context;
+using DomainClasses.CommonBussinessServices;
+using DomainClasses.CommonClasses;
 using Services;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -10,21 +13,18 @@ namespace WebApp.Controllers
 {
     public class DepartmentController : Controller
     {
-        private readonly BusinessServices businessServices;
-
-        public DepartmentController()
+        private readonly EmployeeServices employeeService;
+        private readonly DepartmentServices departmentService;
+        public DepartmentController(CompanyContext dbContext)
         {
-            this.businessServices = new BusinessServices();
+            employeeService = new EmployeeServices(dbContext as CompanyContext);
+            departmentService = new DepartmentServices(dbContext as CompanyContext);
         }
-        public DepartmentController(BusinessServices businessServices)
-        {
 
-            this.businessServices = businessServices;
-        }
         // GET: Department
         public ActionResult Index()
         {
-            List<CompanyDepartment> departments = businessServices.companyDepartmentService.GetAllDepartments();
+            List<CompanyDepartment> departments = departmentService.GetAllDepartments();
             return View(departments);
         }
 
@@ -49,8 +49,7 @@ namespace WebApp.Controllers
             {
                 if (ModelState.IsValid)
                 {
-
-                    businessServices.companyDepartmentService.InsertNewDepartment(department);
+                    departmentService.InsertNewDepartment(department);
                     return RedirectToAction("Index");
                 }
                 else
@@ -67,7 +66,7 @@ namespace WebApp.Controllers
         // GET: Department/Edit/5
         public ActionResult Edit(Guid id)
         {
-            return View(businessServices.companyDepartmentService.GetDepartmentByID(id));
+            return View(departmentService.GetDepartmentByID(id));
         }
 
         // POST: Department/Edit/5
@@ -78,7 +77,7 @@ namespace WebApp.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    string result = businessServices.companyDepartmentService.EditExistingDepartment(department);
+                    string result = departmentService.EditExistingDepartment(department);
                     return RedirectToAction("Index");
                 }
                 else
@@ -95,7 +94,7 @@ namespace WebApp.Controllers
         // GET: Department/Delete/5
         public ActionResult Delete(Guid id, FormCollection collection)
         {
-            return View(businessServices.companyDepartmentService.GetDepartmentByID(id));
+            return View(departmentService.GetDepartmentByID(id));
         }
 
         // POST: Department/Delete/5
@@ -104,7 +103,7 @@ namespace WebApp.Controllers
         {
             try
             {
-                string result=businessServices.companyDepartmentService.DeleteDepartmentByID(id);
+                string result= departmentService.DeleteDepartmentByID(id);
                 return RedirectToAction("Index");
             }
             catch (Exception ex)
@@ -116,7 +115,7 @@ namespace WebApp.Controllers
         public JsonResult CreateDepartment(CompanyDepartment department) {
             try
             {
-                return Json(businessServices.companyDepartmentService.InsertNewDepartment(department));
+                return Json(departmentService.InsertNewDepartment(department));
             }
             catch (Exception ex)
             {
@@ -128,7 +127,7 @@ namespace WebApp.Controllers
         {
             try
             {
-                return Json(businessServices.companyDepartmentService.EditExistingDepartment(department));
+                return Json(departmentService.EditExistingDepartment(department));
             }
             catch (Exception ex)
             {

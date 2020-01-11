@@ -51,8 +51,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CommonBussinessServices\IDepartmentService.cs" />
+    <Compile Include="CommonBussinessServices\IEmployeeService.cs" />
     <Compile Include="CommonClasses\CompanyDepartment.cs" />
     <Compile Include="CommonClasses\CompanyEmployee.cs" />
+    <Compile Include="CommonRepos\IRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DomainClasses.CommonRepos;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -7,15 +8,16 @@ using System.Threading.Tasks;
 
 namespace DomainClasses.CommonClasses
 {
-    public class CompanyDepartment
+    public class CompanyDepartment: EntityBase
     {
         public CompanyDepartment()
         {
-            ID = Guid.NewGuid();
+            if (ID==Guid.Empty)
+            {
+             ID = Guid.NewGuid();
+            }
+            CurrentEmployees = 0;
         }
-
-        [Required]
-        public Guid ID { get; set; }
 
         [Required]
         [Display(Name = "Department Name")]
@@ -26,30 +28,5 @@ namespace DomainClasses.CommonClasses
         [Required]
         [Display(Name = "Current Employees")]
         public int CurrentEmployees { get; set; }
-
-        public virtual string Create(CompanyDepartment department)
-        {
-            return string.Empty;
-        }
-
-        public virtual List<CompanyDepartment> Read()
-        {
-            return null;
-        }
-
-        public virtual CompanyDepartment ReadByID(Guid departmentID)
-        {
-            return null;
-        }
-
-        public virtual string Update(CompanyDepartment department)
-        {
-            return string.Empty;
-        }
-
-        public virtual string Delete(CompanyDepartment department)
-        {
-            return string.Empty;
-        }
     }
 }
