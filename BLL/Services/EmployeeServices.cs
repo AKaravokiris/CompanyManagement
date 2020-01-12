@@ -76,6 +76,7 @@ namespace Services
         }
         public string DeleteEmployee(CompanyEmployee employee)
         {
+            employee.companyDepartment = GetOldDepartment(employee.CompanyDepartment_ID);
             employee.companyDepartment.CurrentEmployees--;
             departmentRepo.Update(employee.companyDepartment);
             departmentRepo.Save();
@@ -85,7 +86,7 @@ namespace Services
         }
         public string DeleteEmployeeByID(Guid employeeID)
         {
-            CompanyEmployee employee =employeeRepo.GetById(employeeID);        
+            CompanyEmployee employee =employeeRepo.GetById(employeeID);            
             return DeleteEmployee(employee);
         }
         private CompanyDepartment GetOldDepartment(Guid companyDepartment_ID)
