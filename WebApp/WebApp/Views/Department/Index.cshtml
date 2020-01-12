@@ -45,7 +45,7 @@
                     Edit
                 </button>
                 @*@Html.ActionLink("Edit", "Edit", new { id = item.ID }) |*@
-                @*    @Html.ActionLink("Details", "Details", new { id = item.ID }) |*@
+                @*@Html.ActionLink("Details", "Details", new { id = item.ID }) |*@
                 @*@Html.ActionLink("Delete", "Delete", new { id = item.ID },new { @class = "dialog" })*@
                 <button onclick="location.href='@Url.Action("Delete", "Department",new { id = item.ID })';return false;" class="dialog btn btn-danger">Delete</button>
             </td>

@@ -25,23 +25,38 @@ namespace WebApp.Controllers
         // GET: Employee
         public ActionResult Index()
         {
+            try
+            {
             List<CompanyEmployee> employees= employeeService.GetAllEmployeesWithEagerLoad();
             return View(employees );
+            }
+            catch (Exception ex)
+            {
+
+                return ShowExceptionMessage(ex);
+            }
         }
 
-        // GET: Employee/Details/5
-        public ActionResult Details(Guid id)
-        {            
-            return View(employeeService.GetEmployeeByID(id));
-        }
+        //// GET: Employee/Details/5
+        //public ActionResult Details(Guid id)
+        //{            
+        //    return View(employeeService.GetEmployeeByID(id));
+        //}
 
         // GET: Employee/Create
         public ActionResult Create()
         {
-            CreateEmployeModel createEmployeModel = new CreateEmployeModel();
-            List<CompanyDepartment> departments = departmentService.GetAllDepartments();
-            createEmployeModel.departments = departments;
-            return View(createEmployeModel);
+            try
+            {
+                CreateEmployeModel createEmployeModel = new CreateEmployeModel();
+                List<CompanyDepartment> departments = departmentService.GetAllDepartments();
+                createEmployeModel.departments = departments;
+                return View(createEmployeModel);
+            }
+            catch (Exception ex)
+            {
+                return ShowExceptionMessage(ex);
+            }
         }
 
 
@@ -69,7 +84,7 @@ namespace WebApp.Controllers
             }
             catch (Exception ex)
             {
-                return View();
+                return ShowExceptionMessage(ex);
             }
         }
 
@@ -77,13 +92,21 @@ namespace WebApp.Controllers
         // GET: Employee/Edit/5
         public ActionResult Edit(Guid id)
         {
-            CreateEmployeModel createEmployeModel = new CreateEmployeModel();
-            CompanyEmployee employee= employeeService.GetEmployeeByID(id);
-            createEmployeModel.employee = employee;
-            List<CompanyDepartment> departments = departmentService.GetAllDepartments();
-            createEmployeModel.departments = departments;
-            createEmployeModel.employee.companyDepartment = departments.Find(x=>x.ID== createEmployeModel.employee.CompanyDepartment_ID);
-            return View(createEmployeModel);
+            try
+            {
+                CreateEmployeModel createEmployeModel = new CreateEmployeModel();
+                CompanyEmployee employee = employeeService.GetEmployeeByID(id);
+                createEmployeModel.employee = employee;
+                List<CompanyDepartment> departments = departmentService.GetAllDepartments();
+                createEmployeModel.departments = departments;
+                createEmployeModel.employee.companyDepartment = departments.Find(x => x.ID == createEmployeModel.employee.CompanyDepartment_ID);
+                return View(createEmployeModel);
+
+            }
+            catch (Exception ex)
+            {
+                return ShowExceptionMessage(ex);
+            }
         }
 
         // POST: Employee/Edit/5
@@ -110,15 +133,22 @@ namespace WebApp.Controllers
             }
             catch (Exception ex)
             {
-                return View();
+               return ShowExceptionMessage(ex);
             }
         }
 
 
         // GET: Employee/Delete/5
         public ActionResult Delete( Guid id,FormCollection collection)
-        {            
+        {
+            try
+            {
             return View(employeeService.GetEmployeeByID(id));
+            }
+            catch (Exception ex)
+            {
+                return ShowExceptionMessage(ex);
+            }
         }
 
         // POST: Employee/Delete/5
@@ -130,10 +160,17 @@ namespace WebApp.Controllers
                 employeeService.DeleteEmployeeByID(id);
                 return RedirectToAction("Index");
             }
-            catch
+            catch (Exception ex)
             {
-                return View();
+                return ShowExceptionMessage(ex);
             }
+        }
+
+        private ActionResult ShowExceptionMessage(Exception ex)
+        {
+            ErrorModel errorModel = new ErrorModel();
+            errorModel.ErrorMessage = ex.Message;
+            return View("Error", errorModel);
         }
     }
 }

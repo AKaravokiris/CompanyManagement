@@ -8,6 +8,7 @@ using System.Data.Entity;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using WebApp.Models;
 
 namespace WebApp.Controllers
 {
@@ -37,8 +38,15 @@ namespace WebApp.Controllers
         // GET: Department/Create
         public ActionResult Create()
         {
+            try
+            {
             CompanyDepartment department = new CompanyDepartment();
             return View(department);
+            }
+            catch (Exception ex)
+            {
+                return ShowExceptionMessage(ex);
+            }
         }
 
         [HttpPost]
@@ -59,7 +67,7 @@ namespace WebApp.Controllers
             }
             catch (Exception ex)
             {
-                return View();
+                return ShowExceptionMessage(ex);
             }
         }
 
@@ -85,16 +93,23 @@ namespace WebApp.Controllers
                     return View(department);
                 }
             }
-            catch
+            catch (Exception ex)
             {
-                return View();
+                return ShowExceptionMessage(ex);
             }
         }
 
         // GET: Department/Delete/5
         public ActionResult Delete(Guid id, FormCollection collection)
         {
-            return View(departmentService.GetDepartmentByID(id));
+            try
+            {
+            return View(departmentService.GetDepartmentByID(id));   
+            }
+            catch (Exception ex)
+            {
+                return ShowExceptionMessage(ex);
+            }
         }
 
         // POST: Department/Delete/5
@@ -108,8 +123,15 @@ namespace WebApp.Controllers
             }
             catch (Exception ex)
             {
-                return View();
+                return ShowExceptionMessage(ex);
             }
+        }
+
+        private ActionResult ShowExceptionMessage(Exception ex)
+        {
+            ErrorModel errorModel = new ErrorModel();
+            errorModel.ErrorMessage = ex.Message;
+            return View("Error", errorModel);
         }
 
         public JsonResult CreateDepartment(CompanyDepartment department) {

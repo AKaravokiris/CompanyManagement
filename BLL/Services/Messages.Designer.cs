@@ -61,6 +61,15 @@ namespace Services {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Current employees count ({0}) can not be greater than Max Limit of employees in department ({1}).
+        /// </summary>
+        public static string sCurrentGreaterThanMax {
+            get {
+                return ResourceManager.GetString("sCurrentGreaterThanMax", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Can not add employee to this department it is maxed out..
         /// </summary>
         public static string sDepartmentIsMax {

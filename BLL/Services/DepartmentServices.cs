@@ -31,6 +31,10 @@ namespace Services
         }
         public string EditExistingDepartment(CompanyDepartment department)
         {
+            if (department.maxEmployees<department.CurrentEmployees)
+            {
+                throw new Exception(string.Format(Messages.sCurrentGreaterThanMax, department.CurrentEmployees,department.maxEmployees));
+            }
             departmentRepo.Update(department);
             departmentRepo.Save();
             return "Department updated";
@@ -46,7 +50,7 @@ namespace Services
             }
             else
             {
-                result=string.Format(Messages.sNotEmptyDepartment,department.CurrentEmployees);
+                throw new Exception( string.Format(Messages.sNotEmptyDepartment, department.CurrentEmployees));
             }
             return result;
         }
