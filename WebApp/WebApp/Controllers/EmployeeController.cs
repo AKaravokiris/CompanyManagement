@@ -121,8 +121,8 @@ namespace WebApp.Controllers
                 }
                 if (ModelState.IsValid)
                 {
-                    CompanyDepartment department = departmentService.GetDepartmentByID(employeeModel.employee.CompanyDepartment_ID);
-                    employeeModel.employee.companyDepartment = department;
+                    //CompanyDepartment department = departmentService.GetDepartmentByID(employeeModel.employee.CompanyDepartment_ID);
+                    //employeeModel.employee.companyDepartment = department;
                     string result = employeeService.EditExistingEmployee(employeeModel.employee);
                     return RedirectToAction("Index");
                 }

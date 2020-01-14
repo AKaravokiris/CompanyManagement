@@ -54,6 +54,7 @@ namespace Services
             string result = string.Empty;
             editedEmployee.companyDepartment = GetNewDepartment(editedEmployee.CompanyDepartment_ID);
             CompanyEmployee oldEmployee = GetOldDataOfEditingEmployee(editedEmployee);
+            employeeRepo.Detach(oldEmployee);
             oldEmployee.companyDepartment = GetOldDepartment(oldEmployee.CompanyDepartment_ID);
             if (!employeeStayedInSameDepartment(editedEmployee, oldEmployee))
             {

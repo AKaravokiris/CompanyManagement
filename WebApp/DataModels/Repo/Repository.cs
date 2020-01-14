@@ -23,6 +23,12 @@ namespace DataModels.DomainModels
             return _dbContext.Set<T>().Find(id);
         }
 
+        public virtual T GetByIdNoTracking(Guid id)
+        {
+            return _dbContext.Set<T>().Find(id);
+        }
+        
+
         public virtual IEnumerable<T> List()
         {
             return _dbContext.Set<T>().AsEnumerable();
@@ -50,8 +56,14 @@ namespace DataModels.DomainModels
 
         public void Update(T entity)
         {
-            // _dbContext.Set<T>().Attach(entity);
-            //_dbContext.Entry(entity).State = EntityState.Modified;
+             _dbContext.Set<T>().Attach(entity);
+            _dbContext.Entry(entity).State = EntityState.Modified;
+            _dbContext.SaveChanges();
+        }
+
+        public void Detach(T entity)
+        {
+            _dbContext.Entry(entity).State = EntityState.Detached;
             _dbContext.SaveChanges();
         }
 
