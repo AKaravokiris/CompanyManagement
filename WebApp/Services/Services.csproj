@@ -67,10 +67,6 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
-    <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\DataModels\DataModels.csproj">
       <Project>{8f540c8a-839b-40f9-9b72-01e1a9242485}</Project>
       <Name>DataModels</Name>

@@ -6,7 +6,8 @@ namespace DataModels.Context
 {
     public class CompanyContext : DbContext
     {
-        public CompanyContext() : base()
+        public CompanyContext(string connString)
+        : base(connString)
         {
             
         }

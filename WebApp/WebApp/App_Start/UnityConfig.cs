@@ -1,10 +1,14 @@
 using DataModels.Context;
 using DomainClasses.CommonBussinessServices;
+using Microsoft.Practices.Unity.Configuration;
 using Services;
 using System;
+using System.Configuration;
 using System.Data.Entity;
 using Unity;
+using Unity.Injection;
 using Unity.Lifetime;
+
 
 namespace WebApp
 {
@@ -42,12 +46,10 @@ namespace WebApp
         {
             // NOTE: To load from web.config uncomment the line below.
             // Make sure to add a Unity.Configuration to the using statements.
-            // container.LoadConfiguration();
+             //container.LoadConfiguration();
 
             // TODO: Register your type's mappings here.
-            //container.RegisterType<IDepartmentService, CompanyDepartmentServices>();
-            //container.RegisterType<IEmployeeService, CompanyEmployeeServices>();
-            container.RegisterType<CompanyContext, CompanyContext>();
+            container.RegisterType<CompanyContext, CompanyContext>(new InjectionConstructor(ConfigurationManager.ConnectionStrings["CompanyDB"].ConnectionString));
         }
     }
 }
